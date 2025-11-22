@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>普通货运车辆网上年审凭证</title>
+    <style>
+        /* 全局重置 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", STHeiti, "Microsoft Yahei", Tahoma, Simsun, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            font-size: 14px;
+            line-height: 1.5;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            background-color: #fff;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+        }
+
+        /* 顶部导航栏 */
+        .nav-bar {
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 12px;
+            border-bottom: 1px solid #f0f0f0;
+            background: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .nav-title {
+            font-size: 17px;
+            font-weight: 500;
+            color: #000;
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            /* 增加点击时的反馈区域和样式 */
+            transition: opacity 0.1s;
+        }
+        
+        /* 点击图标时产生轻微透明度变化，增加交互感 */
+        .nav-icon:active {
+            opacity: 0.5;
+        }
+
+        .icon-back::before {
+            content: "";
+            display: block;
+            width: 10px;
+            height: 10px;
+            border-left: 2px solid #000;
+            border-bottom: 2px solid #000;
+            transform: rotate(45deg);
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 10px;
+        }
+
+        .icon-dots {
+            font-weight: bold;
+            font-size: 20px;
+            letter-spacing: -2px;
+        }
+        
+        .icon-circle {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #000;
+            border-radius: 50%;
+            position: relative;
+        }
+        .icon-circle::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 6px;
+            height: 6px;
+            background: #000;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+
+        .content {
+            padding: 20px 20px;
+            flex: 1;
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            padding-top: 10px;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: #e0e0e0;
+            margin-bottom: 25px;
+            width: 100%;
+        }
+
+        .info-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            font-size: 15px;
+        }
+
+        .label {
+            color: #333;
+            font-weight: 400;
+            flex-shrink: 0;
+            margin-right: 10px;
+        }
+
+        .value {
+            color: #666;
+            text-align: right;
+            word-break: break-all;
+        }
+
+        .val-org {
+            max-width: 200px;
+            line-height: 1.4;
+        }
+
+        .footer-text {
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+            padding: 40px 20px;
+            margin-top: auto;
+        }
+        
+        .safe-area-bar {
+            height: 4px;
+            width: 130px;
+            background-color: #000;
+            border-radius: 2px;
+            margin: 10px auto 8px auto;
+            opacity: 0.3;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <header class="nav-bar">
+            <div class="nav-icon icon-back" onclick="goBack()"></div>
+            <div class="nav-title">信息</div>
+            <div class="nav-right">
+                <div class="nav-icon icon-dots">•••</div>
+                <div class="nav-icon icon-circle"></div>
+            </div>
+        </header>
+
+        <main class="content">
+            <h1 class="page-title">普通货运车辆网上年审凭证</h1>
+            <div class="divider"></div>
+
+            <div class="info-list">
+                <div class="info-item">
+                    <span class="label">年审凭证编号</span>
+                    <span class="value">150108001202306260004</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">车辆号牌</span>
+                    <span class="value">蒙KB6091(黄色)</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">车辆识别代号/VIN</span>
+                    <span class="value">LRDV7PECXJL607106</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">道路运输证号</span>
+                    <span class="value">150108003089</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">技术等级评定结论</span>
+                    <span class="value">二级</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">审验有效期至</span>
+                    <span class="value">2024年06月</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">审验机关</span>
+                    <span class="value val-org">呼和浩特市交通运输服务中心<br>综合服务新城办</span>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p class="footer-text">以上为普通货运车辆网上年审凭证所含信息，仅供参考。</p>
+            <div class="safe-area-bar"></div>
+        </footer>
+    </div>
+
+    <script>
+        // 返回逻辑函数
+        function goBack() {
+            // 判断是否有浏览历史
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                // 如果没有上一页（例如用户直接打开了这个链接），可以选择关闭窗口或无操作
+                console.log("没有上一页历史记录");
+                window.close(); // 大部分现代浏览器处于安全考虑，不允许脚本关闭非脚本打开的窗口
+                
+                // 作为备选，如果无法返回，可以强制跳转到某个首页（如果需要可取消下方注释）
+                // window.location.href = 'index.html'; 
+            }
+        }
+    </script>
+
+</body>
+</html>
