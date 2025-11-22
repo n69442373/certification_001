@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>...</title> 
+    <title>&#20449;&#24687;</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -15,166 +15,109 @@
             display: flex;
             justify-content: center;
             min-height: 100vh;
-            overflow: hidden;
+            overflow: hidden; 
         }
-        #l-layer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 9999;
-            background-color: #F2F3F5;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.5s ease;
+        #loading-layer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999;
+            background-color: #F2F3F5; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; transition: opacity 0.5s ease;
         }
-        .bg-f {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
+        .fake-app-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; }
+        .loading-box {
+            width: 120px; height: 120px; background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 12px; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; color: #fff;
+            font-size: 14px; letter-spacing: 1px; position: relative; z-index: 10;
         }
-        .l-box {
-            width: 120px;
-            height: 120px;
-            background-color: rgba(0, 0, 0, 0.7);
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 14px;
-            letter-spacing: 1px;
-            position: relative;
-            z-index: 10;
+        .spinner {
+            width: 36px; height: 36px; border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff; border-radius: 50%; animation: rotate 1s linear infinite; margin-bottom: 15px;
         }
-        .sp {
-            width: 36px;
-            height: 36px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-top-color: #fff;
-            border-radius: 50%;
-            animation: rot 1s linear infinite;
-            margin-bottom: 15px;
+        @keyframes rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .container {
+            width: 100%; max-width: 600px; background-color: #F5F5F5;
+            padding: 20px 0; position: relative; display: none;
+            flex-direction: column; opacity: 0; transition: opacity 0.5s ease;
         }
-        @keyframes rot {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .cnt {
-            width: 100%;
-            max-width: 600px;
-            background-color: #F5F5F5;
-            padding: 20px 0;
-            position: relative;
-            display: flex; 
-            flex-direction: column;
-            opacity: 0; 
-            transition: opacity 0.5s ease;
-        }
-        .hdr {
-            text-align: center;
-            padding: 15px 20px;
-            background-color: #F5F5F5;
-        }
-        .hdr h1 { font-size: 20px; font-weight: 600; color: #333; }
-        .divd { height: 1px; background-color: #E0E0E0; width: 100%; }
-        .lst { padding: 20px; flex: 1; }
-        .rw {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 22px;
-        }
-        .lbl { color: #333; font-size: 16px; flex-shrink: 0; margin-right: 15px; }
-        .val { color: #666; font-size: 16px; text-align: right; word-break: break-all; }
-        .ftr {
-            text-align: center;
-            padding: 30px 20px 30px;
-            color: #999;
-            font-size: 14px;
-            margin-top: auto;
-        }
+        .header { text-align: center; padding: 15px 20px; background-color: #F5F5F5; }
+        .header h1 { font-size: 20px; font-weight: 600; color: #333; }
+        .divider { height: 1px; background-color: #E0E0E0; width: 100%; }
+        .content-list { padding: 20px; flex: 1; }
+        .row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 22px; }
+        .label { color: #333; font-size: 16px; flex-shrink: 0; margin-right: 15px; }
+        .value { color: #666; font-size: 16px; text-align: right; word-break: break-all; }
+        .footer { text-align: center; padding: 30px 20px 30px; color: #999; font-size: 14px; margin-top: auto; }
         @media (min-width: 601px) {
             body { background-color: #E0E0E0; }
-            .cnt { background-color: #F5F5F5; box-shadow: 0 0 20px rgba(0,0,0,0.1); min-height: 100vh; }
-            #l-layer { max-width: 600px; left: 50%; transform: translateX(-50%); box-shadow: 0 0 20px rgba(0,0,0,0.1); }
+            .container { background-color: #F5F5F5; box-shadow: 0 0 20px rgba(0,0,0,0.1); min-height: 100vh; }
+            #loading-layer { max-width: 600px; left: 50%; transform: translateX(-50%); box-shadow: 0 0 20px rgba(0,0,0,0.1); }
         }
     </style>
 </head>
 <body>
-
-    <div id="l-layer">
-        <div class="bg-f">
-            <div style="height:50px;width:100%"></div>
-        </div>
-        <div class="l-box">
-            <div class="sp"></div>
-            <span id="l-txt">...</span>
+    <div id="loading-layer">
+        <div class="fake-app-bg"></div>
+        <div class="loading-box">
+            <div class="spinner"></div>
+            <span id="loading-text"></span>
         </div>
     </div>
-
-    <div class="cnt" id="m-cnt">
-        <header class="hdr">
-            <h1 id="p-tt"></h1>
-        </header>
-        <div class="divd"></div>
-        <div class="lst" id="ls-bx"></div>
-        <footer class="ftr">
-            <p id="f-txt"></p>
-            <br>
-        </footer>
-    </div>
-
+    <div class="container" id="app-root"></div>
     <script>
-        const _d = (s) => decodeURIComponent(s);
-        const _k = {
-            tm: "%E4%BF%A1%E6%81%AF",
-            ld: "%E5%8A%A0%E8%BD%BD%E4%B8%AD",
-            tt: "%E6%99%AE%E9%80%9A%E8%B4%A7%E8%BF%90%E8%BD%A6%E8%BE%86%E7%BD%91%E4%B8%8A%E5%B9%B4%E5%AE%A1%E5%87%AD%E8%AF%81",
-            ft: "%E4%BB%A5%E4%B8%8A%E4%B8%BA%E6%99%AE%E9%80%9A%E8%B4%A7%E8%BF%90%E8%BD%A6%E8%BE%86%E7%BD%91%E4%B8%8A%E5%B9%B4%E5%AE%A1%E5%87%AD%E8%AF%81%E6%89%80%E5%90%AB%E4%BF%A1%E6%81%AF%EF%BC%8C%E4%BB%85%E4%BE%9B%E5%8F%82%E8%80%83%E3%80%82",
-            it: [
-                ["%E5%B9%B4%E5%AE%A1%E5%87%AD%E8%AF%81%E7%BC%96%E5%8F%B7", "150108001202306260004"],
-                ["%E8%BD%A6%E8%BE%86%E5%8F%B7%E7%89%8C", "%E8%92%99KB6091(%E9%BB%84%E8%89%B2)"],
-                ["%E8%BD%A6%E8%BE%86%E8%AF%86%E5%88%AB%E4%BB%A3%E5%8F%B7/VIN", "LRDV7PECXJL607106"],
-                ["%E9%81%93%E8%B7%AF%E8%BF%90%E8%BE%93%E8%AF%81%E5%8F%B7", "150602214085"],
-                ["%E6%8A%80%E6%9C%AF%E7%AD%89%E7%BA%A7%E8%AF%84%E5%AE%9A%E7%BB%93%E8%AE%BA", "%E4%BA%8C%E7%BA%A7"],
-                ["%E5%AE%A1%E9%AA%8C%E6%9C%89%E6%95%88%E6%9C%9F%E8%87%B3", "2024%E5%B9%B406%E6%9C%88"],
-                ["%E5%AE%A1%E9%AA%8C%E6%9C%BA%E5%85%B3", "%E9%84%82%E5%B0%94%E5%A4%9A%E6%96%AF%E5%B8%82%E4%BA%A4%E9%80%9A%E8%BF%90%E8%BE%93%E6%9C%8D%E5%8A%A1%E4%B8%AD%E5%BF%83<br>%E7%BB%BC%E5%90%88%E6%9C%8D%E5%8A%A1%E6%96%B0%E5%9F%8E%E5%8A%9E"]
-            ]
+        const _secureData = {
+            loading: "52a08f7d4e2d", 
+            title: "666e901a8d278fd08f668f864e0a7f515ba15e745ba151ed8bc1",
+            list: [
+                {l: "5e745ba151ed8bc17f1653f7", v: "003100350030003100300038003000300031003200300032003300300036003200360030003000300034"},
+                {l: "8f668f8653f7724c", v: "8499004b0042003600300039003100289ec482720029"},
+                {l: "8f668f868bc6522b4ee353f7002f00560049004e", v: "004c00520044005600370050004500430058004a004c003600300037003100300036"},
+                {l: "90538def8fd08f938bc153f7", v: "003100350030003600300032003200310034003000380035"},
+                {l: "6280672f7b497ea78bc45b9a7ed38bba", v: "4e8c7ea7"},
+                {l: "5ba19a8c67096548671f81f3", v: "00320030003200345e74003000366708"},
+                {l: "5ba19a8c673a5173", v: "91025c14591a65af5e024ea4901a8fd08f93670d52a14e2d5fc3003c00620072003e7efc5408670d52a165b057ce529e"}
+            ],
+            footer: "4ee54e0a4e3a666e901a8d278fd08f668f864e0a7f515ba15e745ba151ed8bc16240542b4fe1606fff0c4ec54f9b53c28003"
         };
-
-        setTimeout(() => { document.title = _d(_k.tm); }, 600);
-        document.getElementById('l-txt').innerText = _d(_k.ld);
-
-        function bL() {
-            const bx = document.getElementById('ls-bx');
-            let h = '';
-            _k.it.forEach(i => {
-                h += `<div class="rw"><span class="lbl">${_d(i[0])}</span><span class="val">${_d(i[1])}</span></div>`;
-            });
-            bx.innerHTML = h;
-            document.getElementById('p-tt').innerText = _d(_k.tt);
-            document.getElementById('f-txt').innerText = _d(_k.ft);
+        function xDec(str) {
+            let res = [];
+            for (let i = 0; i < str.length; i += 4) {
+                let code = parseInt(str.substr(i, 4), 16);
+                res.push(String.fromCharCode(code));
+            }
+            return res.join('');
         }
-
         window.addEventListener('load', function() {
-            bL();
-            const l = document.getElementById('l-layer');
-            const m = document.getElementById('m-cnt');
+            const loadingLayer = document.getElementById('loading-layer');
+            const loadingText = document.getElementById('loading-text');
+            const root = document.getElementById('app-root');
+            loadingText.innerText = xDec(_secureData.loading);
+            function buildDom() {
+                let html = '';
+                html += '<header class="header"><h1>' + xDec(_secureData.title) + '</h1></header>';
+                html += '<div class="divider"></div>';
+                html += '<div class="content-list">';
+                _secureData.list.forEach(function(item) {
+                    html += '<div class="row">';
+                    html += '<span class="label">' + xDec(item.l) + '</span>';
+                    html += '<span class="value">' + xDec(item.v) + '</span>';
+                    html += '</div>';
+                });
+                html += '</div>';
+                html += '<footer class="footer"><p>' + xDec(_secureData.footer) + '</p><br></footer>';
+                return html;
+            }
             setTimeout(function() {
-                l.style.opacity = '0';
-                m.style.opacity = '1';
-                document.body.style.overflow = 'auto';
-                setTimeout(function() { l.style.display = 'none'; }, 500); 
-            }, 2200);
+                root.innerHTML = buildDom();
+                root.style.display = 'flex';
+                setTimeout(() => {
+                    root.style.opacity = '1';
+                    loadingLayer.style.opacity = '0';
+                    document.body.style.overflow = 'auto';
+                    setTimeout(() => {
+                        loadingLayer.style.display = 'none';
+                    }, 500);
+                }, 50);
+            }, 1500);
         });
     </script>
 </body>
