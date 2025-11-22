@@ -3,127 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>信息</title>
+    <title>普通货运车辆网上年审凭证</title>
     <style>
-        /* 全局重置 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* ================= 基础样式重置 ================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
-            background-color: #F5F5F5; /* 浅灰背景色，模拟APP背景 */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #F5F5F5;
             color: #333;
             font-size: 16px;
             line-height: 1.5;
             display: flex;
-            justify-content: center; /* 电脑端居中显示 */
+            justify-content: center;
             min-height: 100vh;
+            overflow: hidden; /* 加载时禁止滚动 */
         }
 
-        /* 主容器 */
-        .container {
+        /* ================= 加载层样式 (核心需求) ================= */
+        #loading-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 600px; /* 限制最大宽度，模拟在电脑上看手机页面的效果 */
-            background-color: #F5F5F5; /* 保持与背景一致 */
-            padding: 20px 0;
-            position: relative;
+            height: 100%;
+            z-index: 9999;
+            background-color: #F2F3F5; /* 整体背景灰白 */
             display: flex;
             flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease; /* 淡出效果 */
         }
 
-        /* 标题部分 */
+        /* 模拟背景界面 (为了让加载层看起来像是在APP界面上弹出的) */
+        .fake-app-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* 只是背景，不交互 */
+            overflow: hidden;
+        }
+        
+
+        /* --- 加载弹窗本体 --- */
+        .loading-box {
+            width: 120px;
+            height: 120px;
+            background-color: rgba(0, 0, 0, 0.7); /* 深灰半透明背景 */
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 14px;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 10; /* 保证在最上层 */
+        }
+
+        /* 旋转动画圈圈 */
+        .spinner {
+            width: 36px;
+            height: 36px;
+            border: 3px solid rgba(255, 255, 255, 0.3); /* 浅色底环 */
+            border-top-color: #fff; /* 亮色动环 */
+            border-radius: 50%;
+            animation: rotate 1s linear infinite;
+            margin-bottom: 15px;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+
+        /* ================= 主内容区域 (上一版代码) ================= */
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background-color: #F5F5F5;
+            padding: 20px 0;
+            position: relative;
+            display: flex; /* 初始隐藏，JS控制显示 */
+            flex-direction: column;
+            opacity: 0; /* 初始透明，等加载完显示 */
+            transition: opacity 0.5s ease;
+        }
+
         .header {
             text-align: center;
             padding: 15px 20px;
             background-color: #F5F5F5;
         }
-
-        .header h1 {
-            font-size: 20px;
-            font-weight: 600;
-            color: #333;
-            letter-spacing: 1px;
-        }
-
-        /* 分割线 */
-        .divider {
-            height: 1px;
-            background-color: #E0E0E0;
-            margin: 0;
-            width: 100%;
-        }
-
-        /* 列表内容区域 */
-        .content-list {
-            padding: 20px;
-            flex: 1; /* 让内容区撑开高度 */
-        }
-
-        /* 单行样式 - 使用Flexbox实现左右布局 */
+        .header h1 { font-size: 20px; font-weight: 600; color: #333; }
+        .divider { height: 1px; background-color: #E0E0E0; width: 100%; }
+        .content-list { padding: 20px; flex: 1; }
+        
         .row {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start; /* 顶部对齐，防止多行文字导致左侧不居中 */
-            margin-bottom: 22px; /* 行间距 */
+            align-items: flex-start;
+            margin-bottom: 22px;
         }
-
-        /* 左侧标签 */
-        .label {
-            color: #333; /* 深色字体 */
-            font-size: 16px;
-            flex-shrink: 0; /* 防止标签被压缩 */
-            margin-right: 15px;
-            font-weight: 400;
-        }
-
-        /* 右侧数值 */
-        .value {
-            color: #666; /* 稍微浅一点的灰色，模拟原图 */
-            font-size: 16px;
-            text-align: right;
-            word-break: break-all; /* 防止长数字溢出 */
-        }
-
-        /* 针对"蒙A76490"这种特殊颜色处理，如果不需要可以忽略 */
-        .highlight-text {
-            color: #666;
-        }
+        .label { color: #333; font-size: 16px; flex-shrink: 0; margin-right: 15px; }
+        .value { color: #666; font-size: 16px; text-align: right; word-break: break-all; }
         
-        /* 底部说明文字 */
         .footer {
             text-align: center;
-            padding: 30px 20px 40px; /* 底部留白多一点，模拟iPhone Home条区域 */
+            padding: 30px 20px 30px;
             color: #999;
             font-size: 14px;
-            margin-top: auto; /* 推到底部 */
+            margin-top: auto;
         }
 
-        /* 响应式调整：针对超小屏幕 */
-        @media (max-width: 360px) {
-            .label, .value {
-                font-size: 14px;
-            }
-        }
-
-        /* 响应式调整：针对电脑端宽屏 */
+        /* 电脑端适配 */
         @media (min-width: 601px) {
-            body {
-                background-color: #E0E0E0; /* 电脑端背景深一点，突出中间的内容 */
-            }
-            .container {
-                background-color: #F5F5F5;
-                box-shadow: 0 0 20px rgba(0,0,0,0.1); /* 加点阴影更有层次感 */
-                min-height: 100vh;
-            }
+            body { background-color: #E0E0E0; }
+            .container { background-color: #F5F5F5; box-shadow: 0 0 20px rgba(0,0,0,0.1); min-height: 100vh; }
+            /* 电脑端也限制加载层的最大宽度，看起来更像手机 */
+            #loading-layer { max-width: 600px; left: 50%; transform: translateX(-50%); box-shadow: 0 0 20px rgba(0,0,0,0.1); }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <div id="loading-layer">
+        <div class="fake-app-bg">
+            <div class="fake-header">
+                <div class="fake-truck-placeholder"></div> </div>
+            <div class="fake-grid">
+                <div class="fake-icon"></div><div class="fake-icon"></div><div class="fake-icon"></div><div class="fake-icon"></div>
+                <div class="fake-icon"></div><div class="fake-icon"></div><div class="fake-icon"></div><div class="fake-icon"></div>
+            </div>
+        </div>
+
+        <div class="loading-box">
+            <div class="spinner"></div>
+            <span>加载中</span>
+        </div>
+    </div>
+
+    <div class="container" id="main-content">
         <header class="header">
             <h1>普通货运车辆网上年审凭证</h1>
         </header>
@@ -135,32 +159,26 @@
                 <span class="label">年审凭证编号</span>
                 <span class="value">150108001202306260004</span>
             </div>
-
             <div class="row">
                 <span class="label">车辆号牌</span>
                 <span class="value">蒙KB6091(黄色)</span>
             </div>
-
             <div class="row">
                 <span class="label">车辆识别代号/VIN</span>
                 <span class="value">LRDV7PECXJL607106</span>
             </div>
-
             <div class="row">
                 <span class="label">道路运输证号</span>
-                <span class="value">150108003089</span>
+                <span class="value">150602214085</span>
             </div>
-
             <div class="row">
                 <span class="label">技术等级评定结论</span>
                 <span class="value">二级</span>
             </div>
-
             <div class="row">
                 <span class="label">审验有效期至</span>
-                <span class="value">2026年06月</span>
+                <span class="value">2024年06月</span>
             </div>
-
             <div class="row">
                 <span class="label">审验机关</span>
                 <span class="value">鄂尔多斯市交通运输服务中心<br>综合服务新城办</span>
@@ -170,9 +188,35 @@
         <footer class="footer">
             <p>以上为普通货运车辆网上年审凭证所含信息，仅供参考。</p>
             <br>
-            <div class="home-indicator"></div>
         </footer>
     </div>
+
+    <script>
+        // 模拟加载过程
+        window.addEventListener('load', function() {
+            const loadingLayer = document.getElementById('loading-layer');
+            const mainContent = document.getElementById('main-content');
+            
+            // 设置延迟时间 (例如 2000毫秒 = 2秒)
+            // 你可以根据需要调整这个时间
+            setTimeout(function() {
+                // 1. 隐藏加载层
+                loadingLayer.style.opacity = '0';
+                
+                // 2. 显示主内容
+                mainContent.style.opacity = '1';
+                
+                // 3. 允许页面滚动
+                document.body.style.overflow = 'auto';
+
+                // 4. 完全移除加载层元素 (动画结束后)
+                setTimeout(function() {
+                    loadingLayer.style.display = 'none';
+                }, 500); 
+
+            }, 2000);
+        });
+    </script>
 
 </body>
 </html>
