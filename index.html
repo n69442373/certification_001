@@ -14,7 +14,8 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background-color: #F5F5F5;
             color: #333;
-            font-size: 16px;
+            font-size: clamp(13px, 3.8vw, 16px);
+            letter-spacing: -0.5px;
             line-height: 1.5;
             display: flex;
             justify-content: center;
@@ -31,7 +32,7 @@
             width: 120px; height: 120px; background-color: rgba(0, 0, 0, 0.7);
             border-radius: 12px; display: flex; flex-direction: column;
             align-items: center; justify-content: center; color: #fff;
-            font-size: 14px; letter-spacing: 1px; position: relative; z-index: 10;
+            font-size: 14px; letter-spacing: 0; position: relative; z-index: 10;
         }
         .spinner {
             width: 36px; height: 36px; border: 3px solid rgba(255, 255, 255, 0.3);
@@ -44,13 +45,13 @@
             flex-direction: column; opacity: 0; transition: opacity 0.5s ease;
         }
         .header { text-align: center; padding: 15px 20px; background-color: #F5F5F5; }
-        .header h1 { font-size: 20px; font-weight: 600; color: #333; }
+        .header h1 { font-size: 1.25em; font-weight: 600; color: #333; letter-spacing: 0; }
         .divider { height: 1px; background-color: #E0E0E0; width: 100%; }
         .content-list { padding: 20px; flex: 1; }
         .row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 22px; }
-        .label { color: #333; font-size: 16px; flex-shrink: 0; margin-right: 15px; }
-        .value { color: #666; font-size: 16px; text-align: right; word-break: break-all; }
-        .footer { text-align: center; padding: 30px 20px 30px; color: #999; font-size: 14px; margin-top: auto; }
+        .label { color: #333; font-size: 1em; flex-shrink: 0; margin-right: 5px; }
+        .value { color: #666; font-size: 1em; text-align: right; white-space: nowrap; }
+        .footer { text-align: center; padding: 30px 20px 30px; color: #999; font-size: 0.875em; margin-top: auto; }
         @media (min-width: 601px) {
             body { background-color: #E0E0E0; }
             .container { background-color: #F5F5F5; box-shadow: 0 0 20px rgba(0,0,0,0.1); min-height: 100vh; }
